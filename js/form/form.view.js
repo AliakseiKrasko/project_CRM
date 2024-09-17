@@ -22,4 +22,8 @@ function getFormInput() {
     }
 }
 
-export { input, addListener, getFormInput } 
+function clearForm() {
+    input.form.reset();
+}
+
+export { input, addListener, getFormInput, clearForm } 

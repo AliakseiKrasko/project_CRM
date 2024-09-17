@@ -1,44 +1,4 @@
-// // Массив для хранения всех заявок
-// let request = JSON.parse(localStorage.getItem('request')) || [];
-// if (!Array.isArray(request)) {
-//     request = [];
-// }
-
-// console.log(request);
-
-// function createRecord(formRequest) {
-//     const id = request.length > 0 ? request[request.length - 1].id + 1 : 1;
-//     const newRecord = {
-//         id: id,
-//         data: getFormattedDate(),
-//         name: formRequest.name.trim(),
-//         title: formRequest.title.trim(),
-//         phone: formRequest.phone.trim(),
-//         email: formRequest.email.trim(),
-//     };
-
-//     // Добавляем новую запись в массив заявок
-//     request.push(newRecord);
-
-//     // Сохраняем обновленный массив в localStorage
-//     localStorage.setItem('request', JSON.stringify(request)); // Важно для сохранения данных
-
-//     return newRecord;
-// }
-
-// function deleteRecord(id) {
-//     // Находим и удаляем запись по ID
-//     request = request.filter(record => record.id !== id);
-
-//     // Сохраняем обновленный массив в localStorage после удаления
-//     localStorage.setItem('request', JSON.stringify(request));
-// }
-
-
-
-/*__________________________________________________________*/
-
-let requests = [];
+const requests = loadRequests();
 
 class Request {
   constructor(id, name, phone, email, product) {
@@ -73,10 +33,17 @@ function addRequest(testData) {
         testData.email, 
         testData.product
     );
-    requests.push(request);
+    requests.push(request)
 
-    console.log(request);
-    console.log(requests);
+    saveRequests()
+}
+
+function saveRequests() {
+    localStorage.setItem('requests', JSON.stringify(requests))
+}
+
+function loadRequests() {
+    return localStorage.getItem('requests') ? JSON.parse(localStorage.getItem("requests")) : []
 }
 
 export { addRequest}
