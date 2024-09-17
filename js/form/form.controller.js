@@ -12,6 +12,7 @@ function submitForm(e) {
     const newForm = view.getFormInput()
     model.addRequest(newForm)
     view.clearForm()
+    test()
 }
 
 function formMonitoring() {
