@@ -7,6 +7,7 @@ class formTestRandom {
     }
 }
 
+// Массив тестовых заявок
 const testData = [
     new formTestRandom('Алексей Петров', '+123-456-7890', 'petrov@example.com', 'course-vue'),
     new formTestRandom('Андрей Серов', '+123-766-7900', 'serov@example.com', 'course-html'),

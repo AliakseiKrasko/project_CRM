@@ -6,6 +6,7 @@ const input = {
     product: document.querySelector('#product'),
 }
 
+// Функция для добавления тестовых значений в форму
 function addListener(testData) {
     input.name.value = testData.name;
     input.phone.value = testData.phone;
@@ -13,6 +14,7 @@ function addListener(testData) {
     input.product.value = testData.product;
 }
 
+// Функция для получения введенных значений из формы
 function getFormInput() {
     return {
         name: input.name.value.trim(),
@@ -22,6 +24,7 @@ function getFormInput() {
     }
 }
 
+// Функция для очистки формы после добавления заявки
 function clearForm() {
     input.form.reset();
 }

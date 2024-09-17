@@ -1,5 +1,6 @@
 const requests = loadRequests();
 
+// Пример загрузки тестовых данных
 class Request {
   constructor(id, name, phone, email, product) {
     this.id = id;
@@ -12,6 +13,8 @@ class Request {
   }
 }
 
+
+// Функция для создания текущей даты
 function getFormattedDate() {
   const date = new Date();
   const day = String(date.getDate()).padStart(2, "0");
@@ -21,6 +24,7 @@ function getFormattedDate() {
   return `${day}.${month}.${year}`;
 }
 
+// Функция для добавления заявки к массиву requests
 function addRequest(testData) {
     // Определяем ID
     const id = requests.length > 0 ? requests[requests.length - 1].id + 1 : 1;
@@ -38,10 +42,12 @@ function addRequest(testData) {
     saveRequests()
 }
 
+// Функция для сохранения заявок в localStorage
 function saveRequests() {
     localStorage.setItem('requests', JSON.stringify(requests))
 }
 
+// Функция для загрузки заявок из localStorage
 function loadRequests() {
     return localStorage.getItem('requests') ? JSON.parse(localStorage.getItem("requests")) : []
 }
