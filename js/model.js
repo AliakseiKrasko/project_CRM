@@ -52,5 +52,44 @@ function loadRequests() {
     return localStorage.getItem('requests') ? JSON.parse(localStorage.getItem("requests")) : []
 }
 
-export { addRequest}
+function getRequest() {
+  return requests
+}
+
+const products = {
+  "course-html": "Курс по верстке",
+  "course-js": "Курс по JavaScript",
+  "course-vue": "Курс по VUE JS",
+  "course-php": "Курс по PHP",
+  "course-wordpress": "Курс по WordPress"
+}
+
+const statuses = {
+  "new": "Новые",
+  "inwork": "В работе",
+  "complete": "Завершенные"
+}
+
+
+
+function changeProductName(requests) {
+  return requests.map (item => {
+    return {
+      ...item,
+      productName: products[item.product],
+      statusName: statuses[item.status]
+    }
+  })
+
+}
+
+function counterNewBadge() {
+  // const requests = model.getRequest();  // Получаем все заявки
+  const newRequestsCount = requests.filter(request => request.status === 'new').length;  // Считаем заявки со статусом 'new'
+  
+  const badgeNew = document.querySelector('#badge-new');  // Ищем элемент с id="badge-new"
+  badgeNew.textContent = newRequestsCount;  // Обновляем его содержимое количеством новых заявок
+}
+
+export { addRequest, getRequest, requests, changeProductName, counterNewBadge }
 
