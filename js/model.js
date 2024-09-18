@@ -52,9 +52,11 @@ function loadRequests() {
     return localStorage.getItem('requests') ? JSON.parse(localStorage.getItem("requests")) : []
 }
 
+// Функция для получения всех заявок
 function getRequest() {
   return requests
 }
+
 
 const products = {
   "course-html": "Курс по верстке",
@@ -70,8 +72,7 @@ const statuses = {
   "complete": "Завершенные"
 }
 
-
-
+// Функция для изменения названия продукта и статуса в заявке
 function changeProductName(requests) {
   return requests.map (item => {
     return {
@@ -83,6 +84,7 @@ function changeProductName(requests) {
 
 }
 
+// Функция для подсчета новых заявок и отображения их в бейдже
 function counterNewBadge() {
   // const requests = model.getRequest();  // Получаем все заявки
   const newRequestsCount = requests.filter(request => request.status === 'new').length;  // Считаем заявки со статусом 'new'

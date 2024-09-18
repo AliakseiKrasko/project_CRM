@@ -1,13 +1,16 @@
+// Функция для отрисовки заявок в таблице
 function renderRequests(requests) {
   const requestList = document.querySelector("#tbody");
   requestList.innerHTML = ""; // Очищаем таблицу
 
+  // Массив для соответствия статусов заявок и их классам в баджиках
   const bages = {
     new: 'badge-danger',
     inwork: 'badge-warning',
     complete: 'badge-success',
   };
 
+  // Отрисовываем заявки в таблице
   requests.forEach((request) => {
     const row = document.createElement("tr");
     row.innerHTML = `
@@ -28,7 +31,7 @@ function renderRequests(requests) {
         `;
     requestList.appendChild(row);
 
-    // Добавляем строку в таблицу
+    
   });
 }
 
