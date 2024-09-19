@@ -14,14 +14,18 @@ class Request {
 }
 
 
-// Функция для создания текущей даты
+// Функция для создания текущей даты и времени
 function getFormattedDate() {
   const date = new Date();
   const day = String(date.getDate()).padStart(2, "0");
-  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");  // Месяцы начинаются с 0, поэтому добавляем +1
   const year = date.getFullYear();
 
-  return `${day}.${month}.${year}`;
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+
+  return `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
 }
 
 // Функция для добавления заявки к массиву requests
@@ -93,5 +97,24 @@ function counterNewBadge() {
   badgeNew.textContent = newRequestsCount;  // Обновляем его содержимое количеством новых заявок
 }
 
-export { addRequest, getRequest, requests, changeProductName, counterNewBadge }
+// Функция для получения заявки по id
+function getRequestById(id) {
+  return requests.find((items) => items.id == id)
+}
+
+// Функция для изменения заявки по id
+function updataRequest(formData) {
+  const request = getRequestById(formData.get('id'))
+  request.name = formData.get('name')
+  request.phone = formData.get('phone')
+  request.email = formData.get('email')
+  request.product = formData.get('product')
+  request.status = formData.get('status')
+
+  saveRequests()
+}
+
+
+
+export { addRequest, getRequest, requests, changeProductName, counterNewBadge, getRequestById, updataRequest }
 

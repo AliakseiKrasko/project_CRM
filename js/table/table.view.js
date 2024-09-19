@@ -1,4 +1,4 @@
-// Функция для отрисовки заявок в таблице
+// Функция для рендеринга заявок в таблице
 function renderRequests(requests) {
   const requestList = document.querySelector("#tbody");
   requestList.innerHTML = ""; // Очищаем таблицу
@@ -26,7 +26,7 @@ function renderRequests(requests) {
 				<div class="badge badge-pill ${bages[request.status]}">${request.statusName}</div>
 			</td>
 			<td>
-				<a href="edit.html">Редактировать</a>
+				<a href="edit.html?id=${request.id}">Редактировать</a>
 			</td>
         `;
     requestList.appendChild(row);
