@@ -1,90 +1,42 @@
 import * as model from './../model.js';
-import { renderRequests } from './table.view.js';
+import { renderRequests, updateNewBadge } from './table.view.js';
 
-// Переменные для хранения выбранных фильтров
-let selectedStatus = 'all';
-let selectedProduct = 'all';
-
-// Функция для отображения всех заявок при загрузке страницы
+// Функция для отображения заявок с фильтрацией
 function formShow() {
-    let requests = model.getRequest();  // Получаем заявки из модели
-    requests = model.changeProductName(requests);
-    renderRequests(requests);  // Передаем заявки во View для отображения
-    model.counterNewBadge();
-}
+    const selectedStatus = localStorage.getItem('selectedStatus') || 'all';
+    const selectedProduct = localStorage.getItem('selectedProduct') || 'all';
 
-// Функция для сохранения фильтров в localStorage
-function saveFiltersToLocalStorage() {
-    localStorage.setItem('selectedStatus', selectedStatus);
-    localStorage.setItem('selectedProduct', selectedProduct);
-}
-
-// Функция для загрузки фильтров из localStorage
-function loadFiltersFromLocalStorage() {
-    selectedStatus = localStorage.getItem('selectedStatus') || 'all';
-    selectedProduct = localStorage.getItem('selectedProduct') || 'all';
-
-    // Устанавливаем выбранные фильтры в интерфейсе
-    document.querySelector(`#topStatusBar a[data-value="${selectedStatus}"]`).classList.add('active');
-    document.querySelector(`#productSelect option[value="${selectedProduct}"]`).selected = true;
-}
-
-// Функция для обработки фильтрации по статусу и продукту
-function filterRequests() {
     let filteredRequests = model.filterRequests(selectedStatus, selectedProduct);
-    filteredRequests = model.changeProductName(filteredRequests);  // Обновляем названия продуктов и статусов
-    renderRequests(filteredRequests);  // Отображаем отфильтрованные заявки
+    filteredRequests = model.changeProductName(filteredRequests);
+
+    renderRequests(filteredRequests);  // Отображаем заявки
+    updateNewBadge(model.getRequestsCountByStatusAndProduct('new', selectedProduct));  // Обновляем счетчик "новых" заявок
 }
 
-// Функция для обработки кликов по кнопкам статуса
-function handleStatusFilter(event) {
-    event.preventDefault();
-    selectedStatus = event.target.getAttribute('data-value');  // Обновляем выбранный статус
-    filterRequests();  // Вызываем фильтрацию по двум параметрам
-    updateActiveStatus(selectedStatus);
-    saveFiltersToLocalStorage();  // Сохраняем фильтр в localStorage
-}
-
-// Функция для обработки изменения выбора продукта
-function handleProductFilter(event) {
-    selectedProduct = event.target.value;  // Обновляем выбранный продукт
-    filterRequests();  // Вызываем фильтрацию по двум параметрам
-    saveFiltersToLocalStorage();  // Сохраняем фильтр в localStorage
-}
-
-// Функция для обновления активного статуса
-function updateActiveStatus(selectedStatus) {
-    document.querySelectorAll('#topStatusBar a').forEach(el => {
-        el.classList.remove('active');
-        if (el.getAttribute('data-value') === selectedStatus) {
-            el.classList.add('active');
-        }
-    });
-
-    document.querySelectorAll('[data-role="left-status"]').forEach(el => {
-        el.classList.remove('active');
-        if (el.getAttribute('data-value') === selectedStatus) {
-            el.classList.add('active');
-        }
-    });
-}
-
-// Навешиваем обработчики на кнопки фильтрации по статусу
-document.querySelectorAll('#topStatusBar a').forEach(el => {
-    el.addEventListener('click', handleStatusFilter);
-});
-document.querySelectorAll('[data-role="left-status"]').forEach(el => {
-    el.addEventListener('click', handleStatusFilter);
+// Обработчик для фильтрации по продукту
+document.querySelector('#productSelect').addEventListener('change', function () {
+    const selectedProduct = this.value;
+    localStorage.setItem('selectedProduct', selectedProduct);
+    formShow();  // Перерисовываем заявки после фильтрации
 });
 
-// Навешиваем обработчик на выбор продукта
-document.querySelector('#productSelect').addEventListener('change', handleProductFilter);
+// Обработчик для фильтрации по статусу (верхняя панель)
+document.querySelectorAll('[data-role="top-status"]').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const selectedStatus = this.getAttribute('data-value');
+        localStorage.setItem('selectedStatus', selectedStatus);
+        formShow();  // Перерисовываем заявки после фильтрации
+    });
+});
 
-// Загружаем фильтры из localStorage при загрузке страницы
-loadFiltersFromLocalStorage();
+// Обработчик для фильтрации по статусу (левая панель)
+document.querySelectorAll('[data-role="left-status"]').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const selectedStatus = this.getAttribute('data-value');
+        localStorage.setItem('selectedStatus', selectedStatus);
+        formShow();  // Перерисовываем заявки после фильтрации
+    });
+});
 
-// Инициализация отображения заявок при загрузке страницы
-filterRequests();  // Применяем фильтры после загрузки
-model.counterNewBadge();
-
-export { formShow };
+// Запуск отображения заявок при загрузке страницы
+formShow();

@@ -128,6 +128,16 @@ function filterRequests(status, product) {
   return filteredRequests;
 }
 
+// Функция для получения количества заявок по статусу и продукту
+function getRequestsCountByStatusAndProduct(status, product) {
+  const requests = getRequest();  // Получаем все заявки
+  return requests.filter(request => {
+      const matchesStatus = status === 'all' || request.status === status;
+      const matchesProduct = product === 'all' || request.product === product;
+      return matchesStatus && matchesProduct;
+  }).length;
+}
 
-export { addRequest, getRequest, requests, changeProductName, counterNewBadge, getRequestById, updataRequest, filterRequests }
+
+export { addRequest, getRequest, requests, changeProductName, counterNewBadge, getRequestById, updataRequest, filterRequests, getRequestsCountByStatusAndProduct }
 
