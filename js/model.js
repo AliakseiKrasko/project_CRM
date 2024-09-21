@@ -104,7 +104,7 @@ function getRequestById(id) {
 
 // Функция для изменения заявки по id
 function updataRequest(formData) {
-  const request = getRequestById(formData.get('id'))
+      const request = getRequestById(formData.get('id'))
   request.name = formData.get('name')
   request.phone = formData.get('phone')
   request.email = formData.get('email')
@@ -113,8 +113,21 @@ function updataRequest(formData) {
 
   saveRequests()
 }
+// Фильтрация заявок по статусу и продукту
+function filterRequests(status, product) {
+  let filteredRequests = requests;
+
+  if (status !== 'all') {
+      filteredRequests = filteredRequests.filter(request => request.status === status);
+  }
+
+  if (product !== 'all') {
+      filteredRequests = filteredRequests.filter(request => request.product === product);
+  }
+
+  return filteredRequests;
+}
 
 
-
-export { addRequest, getRequest, requests, changeProductName, counterNewBadge, getRequestById, updataRequest }
+export { addRequest, getRequest, requests, changeProductName, counterNewBadge, getRequestById, updataRequest, filterRequests }
 

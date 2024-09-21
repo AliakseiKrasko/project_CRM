@@ -3,6 +3,7 @@ function renderRequests(requests) {
   const requestList = document.querySelector("#tbody");
   requestList.innerHTML = ""; // Очищаем таблицу
 
+
   // Массив для соответствия статусов заявок и их классам в баджиках
   const bages = {
     new: 'badge-danger',
@@ -33,6 +34,7 @@ function renderRequests(requests) {
 
     
   });
+
 }
 
 export { renderRequests };
